@@ -1,7 +1,5 @@
 .image-overlay-container {
-    position: relative; /* Reference for absolute positioning */
-    /* Ensure this container has a size that encompasses the image */
-    /* You might need to set a width and height based on the image */
+    position: relative;
 }
 
 .tickbox-wrapper {
@@ -14,11 +12,10 @@
     margin-right: 5px;
 }
 
-/* Style the image as needed */
 .floorplan-image {
     max-width: 100%;
     height: auto;
-    display: block; /* Prevent extra space below image */
+    display: block;
 }
 
 body {
@@ -43,4 +40,36 @@ body {
 #copy-message {
     margin-top: 10px;
     display: none;
+}
+
+.tickbox-wrapper.left {
+    justify-content: flex-start;
+}
+
+.tickbox-wrapper.right {
+    justify-content: flex-end;
+}
+
+.tickbox-wrapper.pink {
+    /* Styles for pink checkboxes (if needed) */
+}
+
+.tickbox-wrapper.black {
+    /* Styles for black checkboxes (if needed) */
+}
+
+.hidden {
+    display: none !important;
+}
+
+.toggle-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.toggle-buttons button {
+    padding: 10px 15px;
+    margin: 0 10px;
+    cursor: pointer;
 }
