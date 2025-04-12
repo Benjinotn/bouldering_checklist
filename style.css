@@ -1,28 +1,22 @@
-body {
-    font-family: sans-serif;
+.image-overlay-container {
+    position: relative; /* Reference for absolute positioning */
+    /* Ensure this container has a size that encompasses the image */
+    /* You might need to set a width and height based on the image */
+}
+
+.tickbox-wrapper {
+    position: absolute;
     display: flex;
-    flex-direction: column;
     align-items: center;
-  }
-  
-  .floorplan-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .floorplan-image {
-    max-width: 80%; /* Adjust as needed */
+}
+
+.tickbox-wrapper input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+/* Style the image as needed */
+.floorplan-image {
+    max-width: 100%;
     height: auto;
-    margin-bottom: 20px;
-  }
-  
-  #copy-url-button {
-    padding: 10px 20px;
-    cursor: pointer;
-  }
-  
-  #copy-message {
-    margin-top: 10px;
-    display: none;
-  }
+    display: block; /* Prevent extra space below image */
+}

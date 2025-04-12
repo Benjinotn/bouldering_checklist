@@ -1,20 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Floorplan</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="floorplan-container">
-        <h1>Bouldering Gym Floorplan</h1>
-        <button id="copy-url-button">Copy Current URL</button>
-        <p id="copy-message">URL copied to clipboard!</p>
+<div class="floorplan-container">
+    <h1>Bouldering Gym Floorplan</h1>
+    <button id="copy-url-button">Copy Current URL</button>
+    <p id="copy-message"></p>
+    <div class="image-overlay-container">
         <img src="floorplan_bg.svg" alt="Bouldering Gym Floorplan" class="floorplan-image">
-   
+        <div class="tickbox-wrapper" style="top: 50px; left: 100px;">
+            <input type="checkbox" id="climb-1">
+            <label for="climb-1">Climb 1</label>
+        </div>
+        <div class="tickbox-wrapper" style="top: 150px; right: 75px;">
+            <input type="checkbox" id="climb-2">
+            <label for="climb-2">Climb 2</label>
+        </div>
     </div>
 
-    <script src="script.js"></script>
-</body>
-</html>
+</div>
