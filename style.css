@@ -1,6 +1,10 @@
 body {
     font-family: sans-serif;
     margin: 20px;
+    background-image: url("floorplan_bg.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* Other background properties */
 }
 
 .climb-item {
@@ -12,10 +16,3 @@ body {
 .climb-item input[type="checkbox"] {
     margin-right: 10px;
 }
-
-body {
-    background-image: url("floorplan_bg.svg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    /* Other background properties */
-  }
