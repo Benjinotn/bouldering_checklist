@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const copyURLButton = document.getElementById('copy-url-button');
     const copyMessage = document.getElementById('copy-message');
+    const checkboxes = document.querySelectorAll('.tickbox-wrapper input[type="checkbox"]');
 
     function copyCurrentURL() {
         navigator.clipboard.writeText(window.location.href)
@@ -20,4 +21,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initially hide the copy message
     copyMessage.style.display = 'none';
+
+    function updateURL() {
+        const tickedClimbs = [];
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                tickedClimbs.push(checkbox.id); // Or any unique identifier
+            }
+        });
+
+        const params = new URLSearchParams();
+        if (tickedClimbs.length > 0) {
+            params.set('climbs', tickedClimbs.join(','));
+        }
+        const newURL = `${window.location.pathname}?${params.toString()}`;
+        window.history.pushState({}, '', newURL);
+    }
+
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', updateURL);
+    });
+
+    function loadStateFromURL() {
+        const params = new URLSearchParams(window.location.search);
+        const tickedClimbs = params.get('climbs');
+
+        if (tickedClimbs) {
+            const tickedArray = tickedClimbs.split(',');
+            tickedArray.forEach(climbId => {
+                const checkbox = document.getElementById(climbId);
+                if (checkbox) {
+                    checkbox.checked = true;
+                }
+            });
+        }
+    }
+
+    loadStateFromURL();
 });
