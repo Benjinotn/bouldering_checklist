@@ -3,79 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Climbing Log</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-      body {
-        position: relative;
-        background-image: url("floorplan_bg.svg");
-        background-repeat: no-repeat;
-        min-height: auto;
-        margin: 0;
-      }
-
-      #left-checkboxes, #right-checkboxes {
-        width: 5%; /* Adjust if needed */
-        position: absolute; /* Position relative to the body */
-        top: 0;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start; /* Align checkboxes to the start */
-        padding-top: 5vh; /* Adjust top spacing */
-        box-sizing: border-box;
-      }
-
-      #left-checkboxes {
-        left: 0;
-        padding-left: 0.5vw; /* Small left padding */
-      }
-
-      #right-checkboxes {
-        right: 0;
-        align-items: flex-end; /* Align checkboxes to the end */
-        padding-right: 0.5vw; /* Small right padding */
-      }
-
-      .relative-checkbox-item {
-        margin-bottom: calc((100% - (10 * 20px)) / 9); /* Distribute vertically */
-        display: flex;
-        align-items: center;
-        width: 100%; /* Ensure full width for alignment */
-        justify-content: flex-start; /* For left checkboxes */
-      }
-
-      #right-checkboxes .relative-checkbox-item {
-        justify-content: flex-end; /* For right checkboxes */
-      }
-
-      .relative-checkbox-item input[type="checkbox"] {
-        margin-right: 5px; /* For left checkboxes */
-        margin-left: 5px; /* For right checkboxes */
-      }
-
-      #content-area {
-        margin-left: 5%;
-        margin-right: 5%;
-        padding: 20px;
-        box-sizing: border-box;
-      }
-
-      /* ... other styles ... */
-    </style>
+    <title>Floorplan</title>
 </head>
 <body>
-    <div id="left-checkboxes">
-        </div>
-    <div id="content-area">
-        <h1>My Bouldering Checklist</h1>
-        <div id="climb-list">
-            </div>
-        <button id="copy-url-button">Copy Current URL</button>
-        <p id="copy-message" style="display:none;">URL copied to clipboard!</p>
-    </div>
-    <div id="right-checkboxes">
-        </div>
-    <script src="script.js"></script>
+    <img src="floorplan_bg.svg" alt="Floorplan Image">
 </body>
 </html>
