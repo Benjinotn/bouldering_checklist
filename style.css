@@ -1,7 +1,7 @@
 body {
     font-family: sans-serif;
     margin: 20px;
-    background-image: url("floorplan_bg.svg");
+    background-image: url("floorplan.svg");
     background-repeat: no-repeat;
     background-size: cover;
     /* Other background properties */
