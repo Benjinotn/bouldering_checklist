@@ -1,0 +1,4 @@
+.floorplan-image {
+    width: 100%; /* Example: Make it fill its container width */
+    height: auto; /* Maintain aspect ratio */
+  }
