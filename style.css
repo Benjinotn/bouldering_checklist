@@ -20,3 +20,27 @@
     height: auto;
     display: block; /* Prevent extra space below image */
 }
+
+body {
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.floorplan-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#copy-url-button {
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+#copy-message {
+    margin-top: 10px;
+    display: none;
+}
