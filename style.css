@@ -1,0 +1,14 @@
+body {
+    font-family: sans-serif;
+    margin: 20px;
+}
+
+.climb-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.climb-item input[type="checkbox"] {
+    margin-right: 10px;
+}
