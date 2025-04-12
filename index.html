@@ -11,36 +11,35 @@
         background-image: url("floorplan_bg.svg");
         background-repeat: no-repeat;
         background-size: cover;
-        min-height: 100vh; /* Ensure body takes full viewport height */
-        margin: 0; /* Reset default body margin */
-        display: flex; /* For positioning left and right columns */
+        min-height: 100vh;
+        margin: 0;
+        display: flex;
       }
 
       #left-checkboxes, #right-checkboxes {
-        width: 5%; /* Match the width of the gray sections */
-        height: 90vh; /* Match the height of the gray sections */
-        position: fixed; /* Stay in place during scrolling */
-        top: 5vh; /* Align with the top of the gray sections */
-        overflow-y: auto; /* Enable scrolling if there are many checkboxes */
-        padding-top: 10px; /* Add some space for the first checkbox */
+        width: 5%; /* Match the intended "column" width */
+        height: 90vh;
+        position: fixed;
+        top: 5vh;
+        overflow-y: auto;
+        padding-top: 10px;
+        background-color: transparent; /* Make the background transparent */
       }
 
       #left-checkboxes {
         left: 0;
-        background-color: rgba(211, 211, 211, 0.5); /* Semi-transparent to see background */
       }
 
       #right-checkboxes {
         right: 0;
-        background-color: rgba(211, 211, 211, 0.5); /* Semi-transparent */
       }
 
       #content-area {
-        flex-grow: 1; /* Take up the remaining horizontal space */
-        margin-left: 5%; /* Push content away from left checkboxes */
-        margin-right: 5%; /* Push content away from right checkboxes */
+        flex-grow: 1;
+        margin-left: 5%;
+        margin-right: 5%;
         padding: 20px;
-        box-sizing: border-box; /* Include padding in width calculation */
+        box-sizing: border-box;
       }
 
       .color-checkbox-item {
@@ -53,7 +52,6 @@
         margin-right: 5px;
       }
 
-      /* Basic styling for the main content */
       h1 { text-align: center; }
       #climb-list { margin-bottom: 20px; }
       #copy-url-button { display: block; margin: 20px auto; padding: 10px 20px; }
