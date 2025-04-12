@@ -1,4 +1,28 @@
-.floorplan-image {
-    width: 100%; /* Example: Make it fill its container width */
-    height: auto; /* Maintain aspect ratio */
+body {
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .floorplan-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .floorplan-image {
+    max-width: 80%; /* Adjust as needed */
+    height: auto;
+    margin-bottom: 20px;
+  }
+  
+  #copy-url-button {
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  #copy-message {
+    margin-top: 10px;
+    display: none;
   }
