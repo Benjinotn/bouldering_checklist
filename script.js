@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const climbListContainer = document.getElementById('climb-list');
+    const copyURLButton = document.getElementById('copy-url-button');
+    const copyMessage = document.getElementById('copy-message');
     const climbs = [
         "V3 - The Red Slab",
         "V4 - Overhanging Arete",
@@ -58,6 +60,21 @@ document.addEventListener('DOMContentLoaded', () => {
         window.history.pushState({}, '', newURL); // Update URL without full page reload
     }
 
+    // Function to copy the current URL to the clipboard
+    function copyCurrentURL() {
+        navigator.clipboard.writeText(window.location.href)
+            .then(() => {
+                copyMessage.style.display = 'block';
+                setTimeout(() => {
+                    copyMessage.style.display = 'none';
+                }, 2000); // Hide message after 2 seconds
+            })
+            .catch(err => {
+                console.error('Failed to copy URL: ', err);
+                alert('Failed to copy URL. Please copy it manually.');
+            });
+    }
+
     // Add climbs to the list and attach event listeners
     climbs.forEach((climb, index) => {
         const climbElement = createClimbElement(climb, index);
@@ -68,4 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Load initial state from the URL
     loadStateFromURL();
+
+    // Add event listener for the copy URL button
+    copyURLButton.addEventListener('click', copyCurrentURL);
 });
