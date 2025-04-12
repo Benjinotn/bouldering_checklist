@@ -2,17 +2,19 @@ body {
     position: relative;
     background-image: url("floorplan_bg.svg");
     background-repeat: no-repeat;
-    background-size: cover;
-    min-height: 100vh;
+    /* Remove background-size: cover; */
+    min-height: auto; /* Or remove this line */
     margin: 0;
     display: flex;
+    flex-direction: column; /* Add this to stack content vertically */
   }
   
   #left-checkboxes, #right-checkboxes {
     width: 5%;
-    height: 90vh;
+    /* Adjust height as needed, consider 100% to span full scroll */
     position: fixed;
-    top: 5vh;
+    top: 0; /* Align with the top for full scroll span */
+    height: 100%; /* Make them span the full scrollable height */
     overflow-y: auto;
     padding-top: 10px;
     background-color: transparent; /* This is the important change */
@@ -27,7 +29,7 @@ body {
   }
   
   #content-area {
-    flex-grow: 1;
+    flex-grow: 1; /* Allow it to take vertical space */
     margin-left: 5%;
     margin-right: 5%;
     padding: 20px;
@@ -48,3 +50,4 @@ body {
   #climb-list { margin-bottom: 20px; }
   #copy-url-button { display: block; margin: 20px auto; padding: 10px 20px; }
   #copy-message { text-align: center; }
+  
