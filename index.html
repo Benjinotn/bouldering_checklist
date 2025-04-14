@@ -3,96 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Floorplan</title>
+    <title>Image Pinning Application</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="floorplan-container">
-        <h1>Bouldering Gym Floorplan</h1>
-        <button id="copy-url-button">Copy Current URL</button>
-        <p id="copy-message"></p>
-        <div class="toggle-buttons">
-            <button id="toggle-pink">Toggle Pink</button>
-            <button id="toggle-black">Toggle Black</button>
+    <div class="controls">
+        <div>
+            <input type="radio" id="redPinRadio" name="pinColor" value="red" checked>
+            <label for="redPinRadio">Red Pin</label>
+            <input type="radio" id="pinkPinRadio" name="pinColor" value="pink">
+            <label for="pinkPinRadio">Pink Pin</label>
+            <input type="radio" id="blackPinRadio" name="pinColor" value="black">
+            <label for="blackPinRadio">Black Pin</label>
         </div>
-        <div class="image-overlay-container">
-            <img src="floorplan_bg.svg" alt="Bouldering Gym Floorplan" class="floorplan-image">
-            <div class="tickbox-wrapper pink" style="top: 10%; left: 0%;">
-                <input type="checkbox" id="climb-l-1">
-                <label for="climb-l-1">Pink</label>
-            </div>
-            <div class="tickbox-wrapper black" style="top: 20%; left: 0%;">
-                <input type="checkbox" id="climb-l-2">
-                <label for="climb-l-2">Black</label>
-            </div>
-            <div class="tickbox-wrapper pink" style="top: 30%; left: 0%;">
-                <input type="checkbox" id="climb-l-3">
-                <label for="climb-l-3">Pink</label>
-            </div>
-            <div class="tickbox-wrapper black" style="top: 40%; left: 0%;">
-                <input type="checkbox" id="climb-l-4">
-                <label for="climb-l-4">Black</label>
-            </div>
-            <div class="tickbox-wrapper pink" style="top: 50%; left: 0%;">
-                <input type="checkbox" id="climb-l-5">
-                <label for="climb-l-5">Pink</label>
-            </div>
-            <div class="tickbox-wrapper black" style="top: 60%; left: 0%;">
-                <input type="checkbox" id="climb-l-6">
-                <label for="climb-l-6">Black</label>
-            </div>
-            <div class="tickbox-wrapper pink" style="top: 70%; left: 0%;">
-                <input type="checkbox" id="climb-l-7">
-                <label for="climb-l-7">Pink</label>
-            </div>
-            <div class="tickbox-wrapper black" style="top: 80%; left: 0%;">
-                <input type="checkbox" id="climb-l-8">
-                <label for="climb-l-8">Black</label>
-            </div>
-            <div class="tickbox-wrapper pink" style="top: 90%; left: 0%;">
-                <input type="checkbox" id="climb-l-9">
-                <label for="climb-l-9">Pink</label>
-            </div>
-
-            <div class="tickbox-wrapper black" style="top: 10%; right: 0%;">
-                <input type="checkbox" id="climb-r-1">
-                <label for="climb-r-1">Black</label>
-            </div>
-            <div class="tickbox-wrapper pink" style="top: 20%; right: 0%;">
-                <input type="checkbox" id="climb-r-2">
-                <label for="climb-r-2">Pink</label>
-            </div>
-            <div class="tickbox-wrapper black" style="top: 30%; right: 0%;">
-                <input type="checkbox" id="climb-r-3">
-                <label for="climb-r-3">Black</label>
-            </div>
-            <div class="tickbox-wrapper pink" style="top: 40%; right: 0%;">
-                <input type="checkbox" id="climb-r-4">
-                <label for="climb-r-4">Pink</label>
-            </div>
-            <div class="tickbox-wrapper black" style="top: 50%; right: 0%;">
-                <input type="checkbox" id="climb-r-5">
-                <label for="climb-r-5">Black</label>
-            </div>
-            <div class="tickbox-wrapper pink" style="top: 60%; right: 0%;">
-                <input type="checkbox" id="climb-r-6">
-                <label for="climb-r-6">Pink</label>
-            </div>
-            <div class="tickbox-wrapper black" style="top: 70%; right: 0%;">
-                <input type="checkbox" id="climb-r-7">
-                <label for="climb-r-7">Black</label>
-            </div>
-            <div class="tickbox-wrapper pink" style="top: 80%; right: 0%;">
-                <input type="checkbox" id="climb-r-8">
-                <label for="climb-r-8">Pink</label>
-            </div>
-            <div class="tickbox-wrapper black" style="top: 90%; right: 0%;">
-                <input type="checkbox" id="climb-r-9">
-                <label for="climb-r-9">Black</label>
-            </div>
+        <div class="toggle-switch">
+            <input type="checkbox" id="toggleRedPins" checked>
+            <label class="slider" for="toggleRedPins">Red Pins</label>
         </div>
+        <div class="toggle-switch">
+            <input type="checkbox" id="togglePinkPins" checked>
+            <label class="slider" for="togglePinkPins">Pink Pins</label>
+        </div>
+        <div class="toggle-switch">
+            <input type="checkbox" id="toggleBlackPins" checked>
+            <label class="slider" for="toggleBlackPins">Black Pins</label>
+        </div>
+        <button id="clearPins">Clear All Visible Pins</button>
+        <button id="undoPin">Undo Last Pin</button>
     </div>
-
+    <div class="image-container">
+        <img id="backgroundImage" src="bg.png" alt="Background Image">
+        <div id="pin-container">
+            </div>
+    </div>
+    <div class="link-controls">
+        <button id="copyLink">Copy Current Link</button>
+        <div id="copyNotification" class="notification">Link copied!</div>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>

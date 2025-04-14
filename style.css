@@ -1,75 +1,140 @@
-.image-overlay-container {
-    position: relative;
-}
-
-.tickbox-wrapper {
-    position: absolute;
-    display: flex;
-    align-items: center;
-}
-
-.tickbox-wrapper input[type="checkbox"] {
-    margin-right: 5px;
-}
-
-.floorplan-image {
-    max-width: 100%;
-    height: auto;
-    display: block;
-}
-
+/* style.css */
 body {
     font-family: sans-serif;
+    margin: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.floorplan-container {
+.controls {
+    margin-bottom: 10px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    gap: 10px;
+    align-items: flex-start; /* Align items to the left */
 }
 
-#copy-url-button {
-    padding: 10px 20px;
+.controls > div {
+    margin-bottom: 5px; /* Add some space between control groups */
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.toggle-switch input[type="checkbox"] {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
     cursor: pointer;
-    margin-top: 20px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+    padding-left: 38px; /* Space for the text */
+    line-height: 34px; /* Vertically center the text */
+    color: #333;
 }
 
-#copy-message {
-    margin-top: 10px;
-    display: none;
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
 }
 
-.tickbox-wrapper.left {
-    justify-content: flex-start;
+input[type="checkbox"]:checked + .slider {
+    background-color: #2196F3;
+    color: white;
+    padding-left: 10px; /* Adjust text position when active */
+    padding-right: 38px;
+    text-align: right;
 }
 
-.tickbox-wrapper.right {
-    justify-content: flex-end;
+input[type="checkbox"]:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
 }
 
-.tickbox-wrapper.pink {
-    /* Styles for pink checkboxes (if needed) */
+input[type="checkbox"]:checked + .slider:before {
+    transform: translateX(26px);
 }
 
-.tickbox-wrapper.black {
-    /* Styles for black checkboxes (if needed) */
+.image-container {
+    position: relative; /* Needed for absolute positioning of pins */
+    border: 1px solid #ccc; /* Optional border */
+    margin-bottom: 10px; /* Add some space below the image */
 }
 
-.hidden {
-    display: none !important;
+#backgroundImage {
+    display: block; /* Prevents extra space below the image */
+    max-width: 100%;
+    height: auto;
 }
 
-.toggle-buttons {
+.pin {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10; /* Ensure pins are above the image */
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+    align-items: center;
+    font-size: 10px; /* Optional: for numbering pins */
+    color: white; /* Optional: for numbering pins */
 }
 
-.toggle-buttons button {
-    padding: 10px 15px;
-    margin: 0 10px;
-    cursor: pointer;
+.pin-red {
+    background-color: red;
+}
+
+.pin-pink {
+    background-color: pink;
+}
+
+.pin-black {
+    background-color: black;
+}
+
+.link-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.notification {
+    visibility: hidden;
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px;
+    position: absolute; /* Position relative to the link-controls */
+    z-index: 1;
+    bottom: -30px; /* Adjust position as needed */
+    opacity: 0;
+    transition: visibility 0s, opacity 0.5s linear;
+}
+
+.notification.show {
+    visibility: visible;
+    opacity: 1;
 }
