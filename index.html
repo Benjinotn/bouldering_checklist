@@ -7,47 +7,66 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="app-container">
-        <div class="image-container">
+    <div class="main-container">  <div class="image-container">
             <img id="backgroundImage" src="bg.png" alt="Background Image">
-            <div id="pin-container">
-                </div>
+            <div id="pin-container"></div>
         </div>
+
         <div class="controls">
-            <label class="control-label">Select Color</label> <div class="color-selector">
-                <button class="color-option red active" data-color="red"></button>
-                <button class="color-option pink" data-color="pink"></button>
-                <button class="color-option black" data-color="black"></button>
-            </div>
-            <div class="toggle-container">
-                <div class="toggle-switch">
-                    <input type="checkbox" id="toggleRedPins" checked>
-                    <label class="slider" for="toggleRedPins"></label>
+            <div class="control-group">
+                <label>Pin Color:</label>
+                <div>
+                    <div>
+                        <input type="radio" id="redPinRadio" name="pinColor" value="red" checked>
+                        <label for="redPinRadio">Red</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="pinkPinRadio" name="pinColor" value="pink">
+                        <label for="pinkPinRadio">Pink</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="blackPinRadio" name="pinColor" value="black">
+                        <label for="blackPinRadio">Black</label>
+                    </div>
                 </div>
-                <label for="toggleRedPins">Red pins</label>
             </div>
-            <div class="toggle-container">
-                <div class="toggle-switch">
-                    <input type="checkbox" id="togglePinkPins" checked>
-                    <label class="slider" for="togglePinkPins"></label>
+
+            <div class="control-group">
+                <label>Toggle Pins:</label>
+                <div class="toggle-group">
+                    <div class="toggle-switch">
+                        <input type="checkbox" id="toggleRedPins" checked>
+                        <label class="slider" for="toggleRedPins"></label>
+                        <span>Show Red Pins</span>
+                    </div>
+                    <div class="toggle-switch">
+                        <input type="checkbox" id="togglePinkPins" checked>
+                        <label class="slider" for="togglePinkPins"></label>
+                        <span>Show Pink Pins</span>
+                    </div>
+                    <div class="toggle-switch">
+                        <input type="checkbox" id="toggleBlackPins" checked>
+                        <label class="slider" for="toggleBlackPins"></label>
+                        <span>Show Black Pins</span>
+                    </div>
                 </div>
-                <label for="togglePinkPins">Pink pins</label>
             </div>
-            <div class="toggle-container">
-                <div class="toggle-switch">
-                    <input type="checkbox" id="toggleBlackPins" checked>
-                    <label class="slider" for="toggleBlackPins"></label>
+
+            <div class="control-group">
+                <label>Actions:</label>
+                <div class="button-group">
+                    <button id="clearPins">Clear Pins</button>
+                    <button id="undoPin">Undo Pin</button>
                 </div>
-                <label for="toggleBlackPins">Black pins</label>
             </div>
-            <button id="clearPins">Clear All Visible Pins</button>
-            <button id="undoPin">Undo Last Pin</button>
         </div>
     </div>
+
     <div class="link-controls">
-        <button id="copyLink">Copy Current Link</button>
+        <button id="copyLink">Copy Link</button>
         <div id="copyNotification" class="notification">Link copied!</div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
