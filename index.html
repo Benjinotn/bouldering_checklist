@@ -7,34 +7,42 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="controls">
-        <div>
-            <input type="radio" id="redPinRadio" name="pinColor" value="red" checked>
-            <label for="redPinRadio">Red Pin</label>
-            <input type="radio" id="pinkPinRadio" name="pinColor" value="pink">
-            <label for="pinkPinRadio">Pink Pin</label>
-            <input type="radio" id="blackPinRadio" name="pinColor" value="black">
-            <label for="blackPinRadio">Black Pin</label>
+    <div class="app-container">
+        <div class="image-container">
+            <img id="backgroundImage" src="bg.png" alt="Background Image">
+            <div id="pin-container">
+                </div>
         </div>
-        <div class="toggle-switch">
-            <input type="checkbox" id="toggleRedPins" checked>
-            <label class="slider" for="toggleRedPins">Red Pins</label>
-        </div>
-        <div class="toggle-switch">
-            <input type="checkbox" id="togglePinkPins" checked>
-            <label class="slider" for="togglePinkPins">Pink Pins</label>
-        </div>
-        <div class="toggle-switch">
-            <input type="checkbox" id="toggleBlackPins" checked>
-            <label class="slider" for="toggleBlackPins">Black Pins</label>
-        </div>
-        <button id="clearPins">Clear All Visible Pins</button>
-        <button id="undoPin">Undo Last Pin</button>
-    </div>
-    <div class="image-container">
-        <img id="backgroundImage" src="bg.png" alt="Background Image">
-        <div id="pin-container">
+        <div class="controls">
+            <label class="control-label">Select Color</label> <div class="color-selector">
+                <button class="color-option red active" data-color="red"></button>
+                <button class="color-option pink" data-color="pink"></button>
+                <button class="color-option black" data-color="black"></button>
             </div>
+            <div class="toggle-container">
+                <div class="toggle-switch">
+                    <input type="checkbox" id="toggleRedPins" checked>
+                    <label class="slider" for="toggleRedPins"></label>
+                </div>
+                <label for="toggleRedPins">Red pins</label>
+            </div>
+            <div class="toggle-container">
+                <div class="toggle-switch">
+                    <input type="checkbox" id="togglePinkPins" checked>
+                    <label class="slider" for="togglePinkPins"></label>
+                </div>
+                <label for="togglePinkPins">Pink pins</label>
+            </div>
+            <div class="toggle-container">
+                <div class="toggle-switch">
+                    <input type="checkbox" id="toggleBlackPins" checked>
+                    <label class="slider" for="toggleBlackPins"></label>
+                </div>
+                <label for="toggleBlackPins">Black pins</label>
+            </div>
+            <button id="clearPins">Clear All Visible Pins</button>
+            <button id="undoPin">Undo Last Pin</button>
+        </div>
     </div>
     <div class="link-controls">
         <button id="copyLink">Copy Current Link</button>

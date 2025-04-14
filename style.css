@@ -7,23 +7,60 @@ body {
     align-items: center;
 }
 
+.app-container {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.image-container {
+    position: relative;
+    border: 1px solid #ccc;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
+#backgroundImage {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
 .controls {
-    margin-bottom: 10px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    align-items: flex-start; /* Align items to the left */
+    gap: 15px;
+    padding: 25px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    width: auto;
+    max-width: 400px;
 }
 
 .controls > div {
-    margin-bottom: 5px; /* Add some space between control groups */
+    margin-bottom: 15px;
+}
+
+.control-label {
+    font-size: 1em;
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block; /* Ensure it's on its own line */
+}
+
+.toggle-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
 }
 
 .toggle-switch {
     position: relative;
     display: inline-block;
-    width: 60px;
-    height: 34px;
+    width: 80px;
+    height: 44px;
+    margin-right: 15px;
 }
 
 .toggle-switch input[type="checkbox"] {
@@ -41,17 +78,14 @@ body {
     bottom: 0;
     background-color: #ccc;
     transition: .4s;
-    border-radius: 34px;
-    padding-left: 38px; /* Space for the text */
-    line-height: 34px; /* Vertically center the text */
-    color: #333;
+    border-radius: 44px;
 }
 
 .slider:before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
+    height: 36px;
+    width: 36px;
     left: 4px;
     bottom: 4px;
     background-color: white;
@@ -61,10 +95,6 @@ body {
 
 input[type="checkbox"]:checked + .slider {
     background-color: #2196F3;
-    color: white;
-    padding-left: 10px; /* Adjust text position when active */
-    padding-right: 38px;
-    text-align: right;
 }
 
 input[type="checkbox"]:focus + .slider {
@@ -72,33 +102,33 @@ input[type="checkbox"]:focus + .slider {
 }
 
 input[type="checkbox"]:checked + .slider:before {
-    transform: translateX(26px);
+    transform: translateX(36px);
 }
 
-.image-container {
-    position: relative; /* Needed for absolute positioning of pins */
-    border: 1px solid #ccc; /* Optional border */
-    margin-bottom: 10px; /* Add some space below the image */
+.toggle-container label {
+    color: black;
+    font-size: 1.1em;
+    margin-left: 0;
 }
 
 #backgroundImage {
-    display: block; /* Prevents extra space below the image */
+    display: block;
     max-width: 100%;
     height: auto;
 }
 
 .pin {
     position: absolute;
-    width: 16px;
-    height: 16px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     cursor: pointer;
-    z-index: 10; /* Ensure pins are above the image */
+    z-index: 10;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 10px; /* Optional: for numbering pins */
-    color: white; /* Optional: for numbering pins */
+    font-size: 1.1em;
+    color: white;
 }
 
 .pin-red {
@@ -117,7 +147,8 @@ input[type="checkbox"]:checked + .slider:before {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5px;
+    gap: 10px;
+    margin-top: 20px;
 }
 
 .notification {
@@ -125,11 +156,11 @@ input[type="checkbox"]:checked + .slider:before {
     background-color: #4CAF50;
     color: white;
     text-align: center;
-    border-radius: 6px;
-    padding: 8px;
-    position: absolute; /* Position relative to the link-controls */
+    border-radius: 8px;
+    padding: 12px;
+    position: absolute;
     z-index: 1;
-    bottom: -30px; /* Adjust position as needed */
+    bottom: -40px;
     opacity: 0;
     transition: visibility 0s, opacity 0.5s linear;
 }
@@ -137,4 +168,54 @@ input[type="checkbox"]:checked + .slider:before {
 .notification.show {
     visibility: visible;
     opacity: 1;
+}
+
+/* Style the color selector */
+.color-selector {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.color-option {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    outline: none; /* Remove default focus outline */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    transition: transform 0.2s ease-in-out;
+}
+
+.color-option.red {
+    background-color: red;
+}
+
+.color-option.pink {
+    background-color: pink;
+}
+
+.color-option.black {
+    background-color: black;
+}
+
+.color-option.active {
+    transform: scale(1.2); /* Slightly larger when active */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Stronger shadow */
+}
+
+/* Style the toggle buttons at the end of controls */
+.controls > button {
+    padding: 12px 18px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1em;
+    background-color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+.controls > button:hover {
+    background-color: #f0f0f0;
 }
