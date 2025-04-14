@@ -153,8 +153,8 @@ button:hover {
 
 .pin {
     position: absolute;
-    width: 32px; /* Slightly larger pin size */
-    height: 32px; /* Slightly larger pin size */
+    width: 16px; /* Slightly larger pin size */
+    height: 16px; /* Slightly larger pin size */
     border-radius: 50%;
     cursor: pointer;
     z-index: 10;
