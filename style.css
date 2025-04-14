@@ -30,6 +30,7 @@ body {
     border-radius: 8px; /* Slightly larger border-radius */
     padding: 20px; /* Increased padding within controls */
     margin: 15px; /* Added some margin around the controls */
+    width: 40%;
 }
 
 .control-group {
