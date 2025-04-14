@@ -5,24 +5,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const undoPinButton = document.getElementById('undoPin');
     const copyLinkButton = document.getElementById('copyLink');
     const copyNotification = document.getElementById('copyNotification');
-    const redPinRadio = document.getElementById('redPinRadio');
-    const pinkPinRadio = document.getElementById('pinkPinRadio');
-    const blackPinRadio = document.getElementById('blackPinRadio'); // New
     const toggleRedCheckbox = document.getElementById('toggleRedPins');
     const togglePinkCheckbox = document.getElementById('togglePinkPins');
-    const toggleBlackCheckbox = document.getElementById('toggleBlackPins'); // New
+    const toggleBlackCheckbox = document.getElementById('toggleBlackPins');
+    const colorOptions = document.querySelectorAll('.color-option'); // Get all color buttons
 
     let pins = [];
     let redPinsVisible = true;
     let pinkPinsVisible = true;
-    let blackPinsVisible = true; // New
+    let blackPinsVisible = true;
+    let selectedColor = 'red'; // Initialize selected color
 
     // Function to parse pins from the URL
     function getPinsFromURL() {
         const urlParams = new URLSearchParams(window.location.search);
         const redPinsParam = urlParams.get('redPins');
         const pinkPinsParam = urlParams.get('pinkPins');
-        const blackPinsParam = urlParams.get('blackPins'); // New
+        const blackPinsParam = urlParams.get('blackPins');
         const loadedPins = [];
 
         if (redPinsParam) {
@@ -43,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        if (blackPinsParam) { // New
+        if (blackPinsParam) {
             blackPinsParam.split(';').forEach(pinStr => {
                 const coords = pinStr.split(',').map(Number);
                 if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
@@ -58,14 +57,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to update the URL with the current pins
     function updateURL() {
-        const redPinCoords = pins.filter(pin => pin.color === 'red').map(pin => `${pin.x},${pin.y}`).join(';');
-        const pinkPinCoords = pins.filter(pin => pin.color === 'pink').map(pin => `${pin.x},${pin.y}`).join(';');
-        const blackPinCoords = pins.filter(pin => pin.color === 'black').map(pin => `${pin.x},${pin.y}`).join(';'); // New
+        const redPinCoords = pins.filter(pin => pin.color === 'red').map(pin => `<span class="math-inline">\{pin\.x\},</span>{pin.y}`).join(';');
+        const pinkPinCoords = pins.filter(pin => pin.color === 'pink').map(pin => `<span class="math-inline">\{pin\.x\},</span>{pin.y}`).join(';');
+        const blackPinCoords = pins.filter(pin => pin.color === 'black').map(pin => `<span class="math-inline">\{pin\.x\},</span>{pin.y}`).join(';');
 
         const newURL = new URL(window.location.href);
         newURL.searchParams.set('redPins', redPinCoords);
         newURL.searchParams.set('pinkPins', pinkPinCoords);
-        newURL.searchParams.set('blackPins', blackPinCoords); // New
+        newURL.searchParams.set('blackPins', blackPinCoords);
         window.history.pushState({}, '', newURL);
     }
 
@@ -74,14 +73,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const visiblePinsBeforeClear = pins.filter(pin =>
             (pin.color === 'red' && redPinsVisible) ||
             (pin.color === 'pink' && pinkPinsVisible) ||
-            (pin.color === 'black' && blackPinsVisible) // New
+            (pin.color === 'black' && blackPinsVisible)
         );
 
         if (visiblePinsBeforeClear.length > 0 && confirm("Are you sure you want to delete all visible pins?")) {
             pins = pins.filter(pin =>
                 !( (pin.color === 'red' && redPinsVisible) ||
                    (pin.color === 'pink' && pinkPinsVisible) ||
-                   (pin.color === 'black' && blackPinsVisible) // New
+                   (pin.color === 'black' && blackPinsVisible)
                  )
             );
             updateURL();
@@ -94,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to undo the last placed pin
     function undoLastPin() {
         if (pins.length > 0) {
-            pins.pop(); // Remove the last element from the pins array
+            pins.pop();
             updateURL();
             renderPins();
         } else {
@@ -106,9 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function copyCurrentLink() {
         navigator.clipboard.writeText(window.location.href)
             .then(() => {
-                // Show the notification
                 copyNotification.classList.add('show');
-                // Hide the notification after a short delay
                 setTimeout(() => {
                     copyNotification.classList.remove('show');
                 }, 1500);
@@ -130,11 +127,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to render the pins on the image
     function renderPins() {
-        pinContainer.innerHTML = ''; // Clear existing pins
+        pinContainer.innerHTML = '';
         pins.forEach(pin => {
             if ((pin.color === 'red' && redPinsVisible) ||
                 (pin.color === 'pink' && pinkPinsVisible) ||
-                (pin.color === 'black' && blackPinsVisible)) { // New
+                (pin.color === 'black' && blackPinsVisible)) {
                 const pinElement = createPinElement(pin);
                 pinContainer.appendChild(pinElement);
             }
@@ -147,21 +144,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
 
-        // Determine the selected pin color
-        let selectedColor = 'red'; // Default to red if no selection
-        if (pinkPinRadio.checked) {
-            selectedColor = 'pink';
-        } else if (blackPinRadio.checked) { // New
-            selectedColor = 'black';
-        }
-
         // Check if the selected color is currently visible before adding a new pin
         let shouldAddPin = false;
         if (selectedColor === 'red' && redPinsVisible) {
             shouldAddPin = true;
         } else if (selectedColor === 'pink' && pinkPinsVisible) {
             shouldAddPin = true;
-        } else if (selectedColor === 'black' && blackPinsVisible) { // New
+        } else if (selectedColor === 'black' && blackPinsVisible) {
             shouldAddPin = true;
         }
 
@@ -184,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderPins();
     });
 
-    toggleBlackCheckbox.addEventListener('change', () => { // New
+    toggleBlackCheckbox.addEventListener('change', () => {
         blackPinsVisible = toggleBlackCheckbox.checked;
         renderPins();
     });
@@ -198,12 +187,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // Event listener for the copy link button
     copyLinkButton.addEventListener('click', copyCurrentLink);
 
+    // Event listeners for color selection buttons
+    colorOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            colorOptions.forEach(btn => btn.classList.remove('active')); // Remove active class from all
+            option.classList.add('active'); // Add active class to clicked button
+            selectedColor = option.dataset.color; // Update selectedColor
+        });
+    });
+
     // Load pins from the URL on page load
     getPinsFromURL();
 
     // Initialize visibility based on checkbox state
     redPinsVisible = toggleRedCheckbox.checked;
     pinkPinsVisible = togglePinkCheckbox.checked;
-    blackPinsVisible = toggleBlackCheckbox.checked; // New
+    blackPinsVisible = toggleBlackCheckbox.checked;
     renderPins();
 });
