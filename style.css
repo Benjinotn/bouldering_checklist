@@ -153,8 +153,8 @@ button:hover {
 
 .pin {
     position: absolute;
-    width: 20px; /* Slightly larger pin size */
-    height: 20px; /* Slightly larger pin size */
+    width: 32px; /* Slightly larger pin size */
+    height: 32px; /* Slightly larger pin size */
     border-radius: 50%;
     cursor: pointer;
     z-index: 10;
@@ -234,9 +234,11 @@ button:hover {
     }
 
     .control-group div {
-        flex-direction: row;
+        display: flex;
+        flex-direction: column; /* Changed to column */
+        align-items: flex-start; /* Changed to flex-start to align items to the start of the cross axis */
+        gap: 10px; /* Added some gap between the items */
         flex-wrap: wrap;
-        gap: 10px;
     }
 
     .toggle-group {
