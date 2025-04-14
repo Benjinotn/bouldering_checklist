@@ -1,66 +1,66 @@
 /* style.css */
+
 body {
     font-family: sans-serif;
-    margin: 20px;
+    margin: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.app-container {
+.main-container {
     display: flex;
+    flex-direction: row;
+    justify-content: center;
     align-items: flex-start;
-    margin-bottom: 20px;
-}
-
-.image-container {
-    position: relative;
-    border: 1px solid #ccc;
-    margin-right: 20px;
-    margin-bottom: 20px;
-}
-
-#backgroundImage {
-    display: block;
-    max-width: 100%;
-    height: auto;
+    gap: 20px; /* Increased gap for more space */
+    width: 90%; /* Slightly reduced width for more padding on sides */
+    max-width: 1200px; /* Added a max-width for larger screens */
+    box-sizing: border-box;
+    padding: 20px; /* Increased padding around the whole layout */
 }
 
 .controls {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    padding: 25px;
-    border: 1px solid #eee;
-    border-radius: 8px;
-    background-color: #f9f9f9;
+    gap: 25px; /* Increased gap between control groups */
     width: auto;
-    max-width: 400px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 8px; /* Slightly larger border-radius */
+    padding: 20px; /* Increased padding within controls */
+    margin: 15px; /* Added some margin around the controls */
 }
 
-.controls > div {
-    margin-bottom: 15px;
+.control-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px; /* Increased margin at the bottom of control groups */
 }
 
-.control-label {
-    font-size: 1em;
+.control-group label {
+    font-size: 1.2em; /* Slightly larger font size for labels */
     font-weight: bold;
-    margin-bottom: 5px;
-    display: block; /* Ensure it's on its own line */
+    margin-bottom: 8px;
 }
 
-.toggle-container {
+.control-group div {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.toggle-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .toggle-switch {
-    position: relative;
-    display: inline-block;
-    width: 80px;
-    height: 44px;
-    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
 }
 
 .toggle-switch input[type="checkbox"] {
@@ -70,24 +70,24 @@ body {
 }
 
 .slider {
-    position: absolute;
+    position: relative;
+    display: inline-block;
+    width: 80px; /* Increased width of the slider */
+    height: 45px; /* Increased height of the slider */
     cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
     background-color: #ccc;
     transition: .4s;
-    border-radius: 44px;
+    border-radius: 45px; /* Adjusted border-radius to match new height */
+    box-sizing: border-box;
 }
 
 .slider:before {
     position: absolute;
     content: "";
-    height: 36px;
-    width: 36px;
-    left: 4px;
-    bottom: 4px;
+    height: 35px; /* Increased height of the circle */
+    width: 35px; /* Increased width of the circle */
+    left: 5px; /* Adjusted left position */
+    bottom: 5px; /* Adjusted bottom position */
     background-color: white;
     transition: .4s;
     border-radius: 50%;
@@ -102,13 +102,47 @@ input[type="checkbox"]:focus + .slider {
 }
 
 input[type="checkbox"]:checked + .slider:before {
-    transform: translateX(36px);
+    transform: translateX(35px); /* Adjusted translateX value */
 }
 
-.toggle-container label {
+.toggle-switch label.slider {
+    padding: 0;
+    line-height: normal;
+    color: inherit;
+    text-align: left;
+}
+
+.toggle-switch span {
+    margin-left: 15px;
     color: black;
-    font-size: 1.1em;
-    margin-left: 0;
+    font-size: 1.1em; /* Slightly larger font size for toggle labels */
+}
+
+.button-group {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+button {
+    padding: 12px 18px; /* Increased padding for buttons */
+    font-size: 1.1em; /* Slightly larger font size for buttons */
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 8px; /* Slightly larger border-radius */
+    background-color: #f9f9f9;
+}
+
+button:hover {
+    background-color: #eee;
+}
+
+.image-container {
+    position: relative;
+    border: 1px solid #ccc;
+    margin-bottom: 0;
+    width: auto;
+    box-sizing: border-box;
 }
 
 #backgroundImage {
@@ -119,15 +153,15 @@ input[type="checkbox"]:checked + .slider:before {
 
 .pin {
     position: absolute;
-    width: 24px;
-    height: 24px;
+    width: 32px; /* Slightly larger pin size */
+    height: 32px; /* Slightly larger pin size */
     border-radius: 50%;
     cursor: pointer;
     z-index: 10;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.1em;
+    font-size: 12px; /* Slightly larger font size for pin text */
     color: white;
 }
 
@@ -148,7 +182,16 @@ input[type="checkbox"]:checked + .slider:before {
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    margin-top: 20px;
+    width: 90%; /* Match main container width */
+    max-width: 1200px;
+    box-sizing: border-box;
+    padding: 15px; /* Add some padding */
+    margin-top: 20px; /* Add some space above */
+}
+
+.link-controls button {
+    padding: 12px 18px;
+    font-size: 1.1em;
 }
 
 .notification {
@@ -157,10 +200,10 @@ input[type="checkbox"]:checked + .slider:before {
     color: white;
     text-align: center;
     border-radius: 8px;
-    padding: 12px;
+    padding: 10px 15px;
     position: absolute;
     z-index: 1;
-    bottom: -40px;
+    bottom: -40px; /* Adjust position */
     opacity: 0;
     transition: visibility 0s, opacity 0.5s linear;
 }
@@ -170,52 +213,89 @@ input[type="checkbox"]:checked + .slider:before {
     opacity: 1;
 }
 
-/* Style the color selector */
-.color-selector {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
-}
+/* Media Queries for Mobile Responsiveness */
+@media screen and (max-width: 600px) {
+    .main-container {
+        flex-direction: column;
+        align-items: center;
+        padding: 15px;
+    }
 
-.color-option {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
-    outline: none; /* Remove default focus outline */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-    transition: transform 0.2s ease-in-out;
-}
+    .controls {
+        width: 100%;
+        margin-top: 15px;
+        padding: 15px;
+        gap: 20px;
+    }
 
-.color-option.red {
-    background-color: red;
-}
+    .control-group {
+        width: 100%;
+        margin-bottom: 12px;
+    }
 
-.color-option.pink {
-    background-color: pink;
-}
+    .control-group div {
+        display: flex;
+        flex-direction: column; /* Changed to column */
+        align-items: flex-start; /* Changed to flex-start to align items to the start of the cross axis */
+        gap: 10px; /* Added some gap between the items */
+        flex-wrap: wrap;
+    }
 
-.color-option.black {
-    background-color: black;
-}
+    .toggle-group {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
 
-.color-option.active {
-    transform: scale(1.2); /* Slightly larger when active */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Stronger shadow */
-}
+    .toggle-switch {
+        display: flex;
+        align-items: center;
+        margin-bottom: 6px;
+        width: 100%;
+    }
 
-/* Style the toggle buttons at the end of controls */
-.controls > button {
-    padding: 12px 18px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 1.1em;
-    background-color: #fff;
-    transition: background-color 0.3s ease;
-}
+    .slider {
+        width: 60px; /* Reset slider width for mobile */
+        height: 34px; /* Reset slider height for mobile */
+        border-radius: 34px; /* Reset border-radius */
+    }
 
-.controls > button:hover {
-    background-color: #f0f0f0;
+    .slider:before {
+        height: 26px; /* Reset circle height */
+        width: 26px; /* Reset circle width */
+        left: 4px; /* Reset left position */
+        bottom: 4px; /* Reset bottom position */
+    }
+
+    input[type="checkbox"]:checked + .slider:before {
+        transform: translateX(26px); /* Reset translateX */
+    }
+
+    .toggle-switch span {
+        margin-left: 10px;
+        font-size: 1em; /* Reset font size for mobile */
+    }
+
+    .button-group {
+        flex-direction: column;
+        width: 100%;
+        gap: 8px;
+    }
+
+    button {
+        width: 100%;
+        margin-bottom: 5px;
+        font-size: 1em; /* Reset font size for mobile */
+        padding: 10px 15px;
+    }
+
+    .link-controls {
+        padding: 10px;
+        margin-top: 15px;
+    }
+
+    .link-controls button {
+        font-size: 1em;
+        padding: 10px 15px;
+    }
 }
