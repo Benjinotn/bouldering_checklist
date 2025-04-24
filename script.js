@@ -8,20 +8,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const redPinRadio = document.getElementById('redPinRadio');
     const pinkPinRadio = document.getElementById('pinkPinRadio');
     const blackPinRadio = document.getElementById('blackPinRadio'); // New
+    const purplePinRadio = document.getElementById('purplePinRadio');
     const toggleRedCheckbox = document.getElementById('toggleRedPins');
     const togglePinkCheckbox = document.getElementById('togglePinkPins');
     const toggleBlackCheckbox = document.getElementById('toggleBlackPins'); // New
+    const togglePurpleCheckbox = document.getElementById('togglePurplePins');
 
     let pins = [];
     let redPinsVisible = true;
     let pinkPinsVisible = true;
     let blackPinsVisible = true; // New
+    let purplePinsVisible = true;
 
     // Function to parse pins from the URL
     function getPinsFromURL() {
         const urlParams = new URLSearchParams(window.location.search);
         const redPinsParam = urlParams.get('redPins');
         const pinkPinsParam = urlParams.get('pinkPins');
+        const purplePinsParam = urlParams.get('purplePins');
         const blackPinsParam = urlParams.get('blackPins'); // New
         const loadedPins = [];
 
@@ -39,6 +43,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 const coords = pinStr.split(',').map(Number);
                 if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
                     loadedPins.push({ x: coords[0], y: coords[1], color: 'pink' });
+                }
+            });
+        }
+
+        if (purplePinsParam) {
+            purplePinsParam.split(';').forEach(pinStr => {
+                const coords = pinStr.split(',').map(Number);
+                if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
+                    loadedPins.push({ x: coords[0], y: coords[1], color: 'purple' });
                 }
             });
         }
@@ -61,11 +74,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const redPinCoords = pins.filter(pin => pin.color === 'red').map(pin => `${pin.x},${pin.y}`).join(';');
         const pinkPinCoords = pins.filter(pin => pin.color === 'pink').map(pin => `${pin.x},${pin.y}`).join(';');
         const blackPinCoords = pins.filter(pin => pin.color === 'black').map(pin => `${pin.x},${pin.y}`).join(';'); // New
+        const purplePinCoords = pins.filter(pin => pin.color === 'purple').map(pin => `${pin.x},${pin.y}`).join(';');
 
         const newURL = new URL(window.location.href);
         newURL.searchParams.set('redPins', redPinCoords);
         newURL.searchParams.set('pinkPins', pinkPinCoords);
         newURL.searchParams.set('blackPins', blackPinCoords); // New
+        newURL.searchParams.set('purplePins', purplePinCoords);
         window.history.pushState({}, '', newURL);
     }
 
@@ -74,13 +89,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const visiblePinsBeforeClear = pins.filter(pin =>
             (pin.color === 'red' && redPinsVisible) ||
             (pin.color === 'pink' && pinkPinsVisible) ||
+            (pin.color === 'purple' && purplePinsVisible) ||
             (pin.color === 'black' && blackPinsVisible) // New
         );
 
         if (visiblePinsBeforeClear.length > 0 && confirm("Are you sure you want to delete all visible pins?")) {
             pins = pins.filter(pin =>
                 !( (pin.color === 'red' && redPinsVisible) ||
-                   (pin.color === 'pink' && pinkPinsVisible) ||
+                   (pin.color === 'pink' && pinkPinsVisible)  ||
+                   (pin.color === 'purple' && purplePinsVisible) ||
                    (pin.color === 'black' && blackPinsVisible) // New
                  )
             );
@@ -134,6 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
         pins.forEach(pin => {
             if ((pin.color === 'red' && redPinsVisible) ||
                 (pin.color === 'pink' && pinkPinsVisible) ||
+                (pin.color === 'purple' && purplePinsVisible) ||
                 (pin.color === 'black' && blackPinsVisible)) { // New
                 const pinElement = createPinElement(pin);
                 pinContainer.appendChild(pinElement);
@@ -144,8 +162,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Event listener for clicking on the image to place a pin
     backgroundImage.addEventListener('click', (event) => {
         const rect = backgroundImage.getBoundingClientRect();
-        const x = event.clientX - rect.left;
-        const y = event.clientY - rect.top;
+        const x = event.clientX - rect.left - 6;
+        const y = event.clientY - rect.top - 6;
 
         // Determine the selected pin color
         let selectedColor = 'red'; // Default to red if no selection
@@ -153,6 +171,8 @@ document.addEventListener('DOMContentLoaded', () => {
             selectedColor = 'pink';
         } else if (blackPinRadio.checked) { // New
             selectedColor = 'black';
+        } else if (purplePinRadio.checked) {
+            selectedColor = 'purple';
         }
 
         // Check if the selected color is currently visible before adding a new pin
@@ -162,6 +182,8 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (selectedColor === 'pink' && pinkPinsVisible) {
             shouldAddPin = true;
         } else if (selectedColor === 'black' && blackPinsVisible) { // New
+            shouldAddPin = true;
+        } else if (selectedColor === 'purple' && purplePinsVisible) {
             shouldAddPin = true;
         }
 
@@ -189,6 +211,11 @@ document.addEventListener('DOMContentLoaded', () => {
         renderPins();
     });
 
+    togglePurpleCheckbox.addEventListener('change', () => {
+        purplePinsVisible = togglePurpleCheckbox.checked;
+        renderPins();
+    });
+
     // Event listener for the clear pins button
     clearPinsButton.addEventListener('click', clearAllPins);
 
@@ -205,5 +232,6 @@ document.addEventListener('DOMContentLoaded', () => {
     redPinsVisible = toggleRedCheckbox.checked;
     pinkPinsVisible = togglePinkCheckbox.checked;
     blackPinsVisible = toggleBlackCheckbox.checked; // New
+    purplePinsVisible = togglePurpleCheckbox.checked;
     renderPins();
 });

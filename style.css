@@ -193,6 +193,10 @@ button:hover {
     background-color: black;
 }
 
+.pin-purple {
+    background-color: purple;
+}
+
 .link-controls {
     display: flex;
     flex-direction: column;
