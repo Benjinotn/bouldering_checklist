@@ -14,10 +14,9 @@ body {
     justify-content: center;
     align-items: flex-start;
     gap: 20px; /* Increased gap for more space */
-    width: 90%; /* Slightly reduced width for more padding on sides */
     max-width: 1200px; /* Added a max-width for larger screens */
     box-sizing: border-box;
-    padding: 20px; /* Increased padding around the whole layout */
+    padding: 20px;
 }
 
 .controls {
@@ -29,8 +28,8 @@ body {
     border: 1px solid #ddd;
     border-radius: 8px; /* Slightly larger border-radius */
     padding: 20px; /* Increased padding within controls */
-    margin: 15px; /* Added some margin around the controls */
-    width: 40%;
+
+    min-width: min-content;
 }
 
 .control-group {
@@ -42,12 +41,10 @@ body {
 .control-group label {
     font-size: 1.2em; /* Slightly larger font size for labels */
     font-weight: bold;
-    margin-bottom: 8px;
 }
 
 .control-group div {
     display: flex;
-    align-items: center;
     gap: 15px;
     flex-wrap: wrap;
 }
@@ -61,7 +58,6 @@ body {
 .toggle-switch {
     display: flex;
     align-items: center;
-    margin-bottom: 8px;
 }
 
 .toggle-switch input[type="checkbox"] {
@@ -71,27 +67,35 @@ body {
 }
 
 .slider {
+    --slider-toggle-switch-size: 20px;
+    --slider-toggle-margin: 5px;
+    --slider-toggle-width: 60px;
+
     position: relative;
     display: inline-block;
-    width: 80px; /* Increased width of the slider */
-    height: 45px; /* Increased height of the slider */
+    width: var(--slider-toggle-width);
+    height: calc(var(--slider-toggle-switch-size) + (var(--slider-toggle-margin) * 2));
     cursor: pointer;
     background-color: #ccc;
     transition: .4s;
-    border-radius: 45px; /* Adjusted border-radius to match new height */
+    border-radius: 1000px;
     box-sizing: border-box;
 }
 
-.slider:before {
+.slider::before {
     position: absolute;
     content: "";
-    height: 35px; /* Increased height of the circle */
-    width: 35px; /* Increased width of the circle */
-    left: 5px; /* Adjusted left position */
-    bottom: 5px; /* Adjusted bottom position */
+    height: var(--slider-toggle-switch-size);
+    width: var(--slider-toggle-switch-size);
+    top: var(--slider-toggle-margin);
+    left: var(--slider-toggle-margin);
     background-color: white;
     transition: .4s;
     border-radius: 50%;
+}
+
+input[type="checkbox"]:checked + .slider::before {
+    transform: translateX(calc(var(--slider-toggle-width) - var(--slider-toggle-switch-size) - (2 * var(--slider-toggle-margin))));
 }
 
 input[type="checkbox"]:checked + .slider {
@@ -102,21 +106,13 @@ input[type="checkbox"]:focus + .slider {
     box-shadow: 0 0 1px #2196F3;
 }
 
-input[type="checkbox"]:checked + .slider:before {
-    transform: translateX(35px); /* Adjusted translateX value */
-}
-
-.toggle-switch label.slider {
-    padding: 0;
-    line-height: normal;
-    color: inherit;
-    text-align: left;
-}
-
-.toggle-switch span {
-    margin-left: 15px;
-    color: black;
-    font-size: 1.1em; /* Slightly larger font size for toggle labels */
+/* If the primary input device is low accuracy, such as a touchscreen */
+@media (pointer: coarse) {
+    .slider {
+        --slider-toggle-switch-size: 40px;
+        --slider-toggle-margin: 5px;
+        --slider-toggle-width: 100px;
+    }
 }
 
 .button-group {
@@ -144,6 +140,8 @@ button:hover {
     margin-bottom: 0;
     width: auto;
     box-sizing: border-box;
+
+    min-width: 300px;
 }
 
 #backgroundImage {
@@ -274,22 +272,9 @@ button:hover {
         width: 100%;
     }
 
-    .slider {
-        width: 60px; /* Reset slider width for mobile */
-        height: 34px; /* Reset slider height for mobile */
-        border-radius: 34px; /* Reset border-radius */
-    }
+    
 
-    .slider:before {
-        height: 26px; /* Reset circle height */
-        width: 26px; /* Reset circle width */
-        left: 4px; /* Reset left position */
-        bottom: 4px; /* Reset bottom position */
-    }
-
-    input[type="checkbox"]:checked + .slider:before {
-        transform: translateX(26px); /* Reset translateX */
-    }
+    
 
     .toggle-switch span {
         margin-left: 10px;
