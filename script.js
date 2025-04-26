@@ -140,8 +140,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function createPinElement(pin) {
         const pinElement = document.createElement('div');
         pinElement.classList.add('pin', `pin-${pin.color}`);
-        pinElement.style.left = `${pin.x}px`;
-        pinElement.style.top = `${pin.y}px`;
+        const rect = backgroundImage.getBoundingClientRect();
+        pinElement.style.left = `${rect.width * pin.x}px`;
+        pinElement.style.top = `${rect.height * pin.y}px`;
         return pinElement;
     }
 
@@ -162,8 +163,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Event listener for clicking on the image to place a pin
     backgroundImage.addEventListener('click', (event) => {
         const rect = backgroundImage.getBoundingClientRect();
-        const x = event.clientX - rect.left - 6;
-        const y = event.clientY - rect.top - 6;
+        // Store as ratio of image size because screen size can change with rotation / between devices
+        const x = (event.clientX - rect.left) / rect.width;
+        const y = (event.clientY - rect.top) / rect.height;
 
         // Determine the selected pin color
         let selectedColor = 'red'; // Default to red if no selection
@@ -188,12 +190,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (shouldAddPin) {
-            const newPin = { x: Math.round(x), y: Math.round(y), color: selectedColor };
+            const newPin = { x: x, y: y, color: selectedColor };
             pins.push(newPin);
             renderPins();
             updateURL();
         }
     });
+
+    window.addEventListener('resize', renderPins)
 
     // Event listeners for the visibility toggle switches
     toggleRedCheckbox.addEventListener('change', () => {
