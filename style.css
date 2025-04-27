@@ -35,7 +35,6 @@ body {
 .control-group {
     display: flex;
     flex-direction: column;
-    margin-bottom: 15px; /* Increased margin at the bottom of control groups */
 }
 
 .control-group label {
@@ -249,7 +248,6 @@ button:hover {
 
     .control-group {
         width: 100%;
-        margin-bottom: 12px;
     }
 
     .control-group div {
