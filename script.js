@@ -1,6 +1,9 @@
 const backgroundImage = document.getElementById('backgroundImage');
 const pinContainer = document.getElementById('pin-container');
-const clearPinsButton = document.getElementById('clearPins');
+const archiveBlackSetBtn = document.getElementById('archive-black-set');
+const archiveRedSetBtn = document.getElementById('archive-red-set');
+const archivePinkSetBtn = document.getElementById('archive-pink-set');
+const archivePurpleSetBtn = document.getElementById('archive-purple-set');
 const undoPinButton = document.getElementById('undoPin');
 const copyLinkButton = document.getElementById('copyLink');
 const copyNotification = document.getElementById('copyNotification');
@@ -78,12 +81,12 @@ function updateURL() {
     const newURL = new URL(window.location.href);
     newURL.searchParams.set('redPins', redPinCoords);
     newURL.searchParams.set('pinkPins', pinkPinCoords);
-    newURL.searchParams.set('blackPins', blackPinCoords); // New
+    newURL.searchParams.set('blackPins', blackPinCoords);
     newURL.searchParams.set('purplePins', purplePinCoords);
     window.history.pushState({}, '', newURL);
 }
 
-function save() {
+function saveCurrentRoutes() {
     localStorage.setItem('currentRoutes', JSON.stringify(pins))
 }
 
@@ -92,34 +95,35 @@ function load() {
     renderPins()
 }
 
-// Function to clear all visible pins from the URL and the application
-function clearAllPins() {
-    const visiblePinsBeforeClear = pins.filter(pin =>
-        (pin.color === 'red' && redPinsVisible) ||
-        (pin.color === 'pink' && pinkPinsVisible) ||
-        (pin.color === 'purple' && purplePinsVisible) ||
-        (pin.color === 'black' && blackPinsVisible) // New
-    );
-
-    if (visiblePinsBeforeClear.length > 0 && confirm("Are you sure you want to delete all visible pins?")) {
-        pins = pins.filter(pin =>
-            !( (pin.color === 'red' && redPinsVisible) ||
-                (pin.color === 'pink' && pinkPinsVisible)  ||
-                (pin.color === 'purple' && purplePinsVisible) ||
-                (pin.color === 'black' && blackPinsVisible) // New
-                )
-        );
-        save();
-        renderPins();
-    } else if (visiblePinsBeforeClear.length === 0) {
-        alert("No visible pins to clear.");
+function archiveSet(setColor) {
+    if(!pins.some(route => route.color === setColor)) {
+        alert(`No ${setColor} routes to archive`)
+        return
     }
+    if(!confirm(`Are you sure you want to archive all ${setColor} routes?`)) {
+        return
+    }
+    routeSets = Object.groupBy(pins, ({color}) => color === setColor ? 'archive' : 'current')
+
+    // Save archived routes
+    let archivedRoutes = JSON.parse(localStorage.getItem('archivedRoutes')) || {}
+    if(!archivedRoutes[setColor]) {
+        archivedRoutes[setColor] = []
+    }
+    archivedRoutes[setColor].push(routeSets.archive)
+    localStorage.setItem('archivedRoutes', JSON.stringify(archivedRoutes))
+
+    // Update current pins (after archiving just in case something goes wrong)
+    pins = routeSets.current || []
+    saveCurrentRoutes()
+
+    renderPins()
 }
 
 function undoLastPin() {
     if (pins.length > 0) {
         pins.pop(); // Remove the last element from the pins array
-        save();
+        saveCurrentRoutes();
         renderPins();
     } else {
         alert("No pins to undo.");
@@ -201,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const newPin = { x: x, y: y, color: selectedColor };
             pins.push(newPin);
             renderPins();
-            save();
+            saveCurrentRoutes();
         }
     });
 
@@ -228,8 +232,10 @@ document.addEventListener('DOMContentLoaded', () => {
         renderPins();
     });
 
-    // Event listener for the clear pins button
-    clearPinsButton.addEventListener('click', clearAllPins);
+    archiveBlackSetBtn.addEventListener('click', () => archiveSet('black'));
+    archiveRedSetBtn.addEventListener('click', () => archiveSet('red'));
+    archivePinkSetBtn.addEventListener('click', () => archiveSet('pink'));
+    archivePurpleSetBtn.addEventListener('click', () => archiveSet('purple'));
 
     // Event listener for the undo button
     undoPinButton.addEventListener('click', undoLastPin);
