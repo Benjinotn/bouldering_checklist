@@ -22,14 +22,52 @@ let pinkPinsVisible = true;
 let blackPinsVisible = true; // New
 let purplePinsVisible = true;
 
+function migrateFromUrlToLocalStorage() {
+    const urlParams = new URLSearchParams(window.location.search)
+
+    if(urlParams.has('blackPins') || urlParams.has('redPins')
+            || urlParams.has('pinkPins') || urlParams.has('purplePins')) {
+        let message = localStorage.getItem('currentRoutes').length ?
+                'Routes are now stored on your device.  Would you like to overwrite your existing routes with the ones in the URL?' :
+                'Routes are now stored on your device.  Routes stored in the URL will now be migrated to your device and removed from the URL.'
+        if(confirm(message)) {
+            let urlPins = getPinsFromURL()
+            const rect = backgroundImage.getBoundingClientRect();
+            pins = urlPins.map(pin => {
+                pin.x =  pin.x / rect.width
+                pin.y =  pin.y / rect.height
+                return pin
+            })
+            urlParams.delete('blackPins')
+            urlParams.delete('redPins')
+            urlParams.delete('pinkPins')
+            urlParams.delete('purplePins')
+
+            window.location.search = urlParams
+
+            saveCurrentRoutes()
+            renderPins()
+        }
+    }
+}
+
 // Function to parse pins from the URL
 function getPinsFromURL() {
     const urlParams = new URLSearchParams(window.location.search);
+    const blackPinsParam = urlParams.get('blackPins');
     const redPinsParam = urlParams.get('redPins');
     const pinkPinsParam = urlParams.get('pinkPins');
     const purplePinsParam = urlParams.get('purplePins');
-    const blackPinsParam = urlParams.get('blackPins'); // New
     const loadedPins = [];
+
+    if (blackPinsParam) {
+        blackPinsParam.split(';').forEach(pinStr => {
+            const coords = pinStr.split(',').map(Number);
+            if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
+                loadedPins.push({ x: coords[0], y: coords[1], color: 'black' });
+            }
+        });
+    }
 
     if (redPinsParam) {
         redPinsParam.split(';').forEach(pinStr => {
@@ -58,17 +96,7 @@ function getPinsFromURL() {
         });
     }
 
-    if (blackPinsParam) { // New
-        blackPinsParam.split(';').forEach(pinStr => {
-            const coords = pinStr.split(',').map(Number);
-            if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
-                loadedPins.push({ x: coords[0], y: coords[1], color: 'black' });
-            }
-        });
-    }
-
-    pins = loadedPins;
-    renderPins();
+    return loadedPins
 }
 
 // Function to update the URL with the current pins
@@ -222,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderPins();
     });
 
-    toggleBlackCheckbox.addEventListener('change', () => { // New
+    toggleBlackCheckbox.addEventListener('change', () => {
         blackPinsVisible = toggleBlackCheckbox.checked;
         renderPins();
     });
@@ -244,6 +272,8 @@ document.addEventListener('DOMContentLoaded', () => {
     copyLinkButton.addEventListener('click', copyCurrentLink);
 
     load();
+
+    migrateFromUrlToLocalStorage()
 
     // Initialize visibility based on checkbox state
     redPinsVisible = toggleRedCheckbox.checked;
