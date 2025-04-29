@@ -31,21 +31,51 @@ function migrateFromUrlToLocalStorage() {
                 'Routes are now stored on your device.  Would you like to overwrite your existing routes with the ones in the URL?' :
                 'Routes are now stored on your device.  Routes stored in the URL will now be migrated to your device and removed from the URL.'
         if(confirm(message)) {
+            document.getElementById('import-tool').style.display = 'flex'
+            for(let activeTool of document.getElementsByClassName('active-tool')) {
+                activeTool.style.display = 'none'
+            }
+
             let urlPins = getPinsFromURL()
             const rect = backgroundImage.getBoundingClientRect();
-            pins = urlPins.map(pin => {
+            pins = urlPins = urlPins.map(pin => {
                 pin.x =  pin.x / rect.width
                 pin.y =  pin.y / rect.height
                 return pin
             })
-            urlParams.delete('blackPins')
-            urlParams.delete('redPins')
-            urlParams.delete('pinkPins')
-            urlParams.delete('purplePins')
 
-            window.location.search = urlParams
+            const calibratePins = () => {
+                let scale = parseFloat(document.getElementById('migration-scale').value)
+                let xOffset = parseFloat(document.getElementById('migration-x-offset').value)
+                let yOffset = parseFloat(document.getElementById('migration-y-offset').value)
+                pins = urlPins.map(pin => {
+                    return {
+                        x: (pin.x * scale) + xOffset,
+                        y: (pin.y * scale) + yOffset,
+                        color: pin.color
+                    }
+                })
+                renderPins()
+            }
 
-            saveCurrentRoutes()
+            document.getElementById('migration-scale').addEventListener('change', calibratePins)
+            document.getElementById('migration-x-offset').addEventListener('change', calibratePins)
+            document.getElementById('migration-y-offset').addEventListener('change', calibratePins)
+            document.getElementById('migration-import').addEventListener('click', () => {
+                saveCurrentRoutes()
+
+                urlParams.delete('blackPins')
+                urlParams.delete('redPins')
+                urlParams.delete('pinkPins')
+                urlParams.delete('purplePins')
+                window.location.search = urlParams
+
+                document.getElementById('import-tool').style.display = 'none'
+                for(let activeTool of document.getElementsByClassName('active-tool')) {
+                    activeTool.style.display = undefined
+                }
+            })
+
             renderPins()
         }
     }
