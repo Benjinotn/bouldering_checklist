@@ -99,6 +99,12 @@ const backgroundImage = document.getElementById('backgroundImage');
  
  function load() {
   pins = JSON.parse(localStorage.getItem('currentRoutes')) || [];
+    // Migrate data if 'state' is missing
+  pins.forEach(pin => {
+   if (pin.state === undefined) {
+    pin.state = 'solid'; // Default state
+   }
+  });
   renderPins();
  }
  
