@@ -17,16 +17,19 @@ const toggleBlackCheckbox = document.getElementById('toggleBlackPins'); // New
 const togglePurpleCheckbox = document.getElementById('togglePurplePins');
 
 let pins = [];
+
 let redPinsVisible = true;
 let pinkPinsVisible = true;
 let blackPinsVisible = true; // New
 let purplePinsVisible = true;
 
-function migrateFromUrlToLocalStorage() {
-    const urlParams = new URLSearchParams(window.location.search)
+const pinNames = ['blackPins', 'redPins', 'pinkPins', 'purplePins']
 
-    if(urlParams.has('blackPins') || urlParams.has('redPins')
-            || urlParams.has('pinkPins') || urlParams.has('purplePins')) {
+function migrateFromUrlToLocalStorage() {
+    const urlParams= new URLSearchParams(window.location.search)
+    const hasPinData = pinNames.some(pinName => urlParams.has(pinName));
+
+    if(hasPinData) {
         let message = localStorage.getItem('currentRoutes').length ?
                 'Routes are now stored on your device.  Would you like to overwrite your existing routes with the ones in the URL?' :
                 'Routes are now stored on your device.  Routes stored in the URL will now be migrated to your device and removed from the URL.'
@@ -90,41 +93,22 @@ function getPinsFromURL() {
     const purplePinsParam = urlParams.get('purplePins');
     const loadedPins = [];
 
-    if (blackPinsParam) {
-        blackPinsParam.split(';').forEach(pinStr => {
-            const coords = pinStr.split(',').map(Number);
-            if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
-                loadedPins.push({ x: coords[0], y: coords[1], color: 'black' });
-            }
-        });
-    }
+    const pincolors = ['black', 'red', 'pink', 'purple'];
 
-    if (redPinsParam) {
-        redPinsParam.split(';').forEach(pinStr => {
-            const coords = pinStr.split(',').map(Number);
-            if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
-                loadedPins.push({ x: coords[0], y: coords[1], color: 'red' });
-            }
-        });
-    }
+    pincolors.forEach(color => {
+        // check if there are any pin colors in the url
+        const pinParamName = `${color}Pins`;
+        const pinParam = urlParams.get(pinParamName)
 
-    if (pinkPinsParam) {
-        pinkPinsParam.split(';').forEach(pinStr => {
-            const coords = pinStr.split(',').map(Number);
-            if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
-                loadedPins.push({ x: coords[0], y: coords[1], color: 'pink' });
-            }
-        });
-    }
-
-    if (purplePinsParam) {
-        purplePinsParam.split(';').forEach(pinStr => {
-            const coords = pinStr.split(',').map(Number);
-            if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
-                loadedPins.push({ x: coords[0], y: coords[1], color: 'purple' });
-            }
-        });
-    }
+        if (pinParam) {
+            pinParam.split(';').forEach(pinStr => {
+                const coords = pinStr.split(',').map(Number);
+                if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
+                    loadedPins.push({ x: coords[0], y: coords[1], color: color });
+                }
+            });
+        }
+    })
 
     return loadedPins
 }
