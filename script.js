@@ -87,10 +87,6 @@ function migrateFromUrlToLocalStorage() {
 // Function to parse pins from the URL
 function getPinsFromURL() {
     const urlParams = new URLSearchParams(window.location.search);
-    const blackPinsParam = urlParams.get('blackPins');
-    const redPinsParam = urlParams.get('redPins');
-    const pinkPinsParam = urlParams.get('pinkPins');
-    const purplePinsParam = urlParams.get('purplePins');
     const loadedPins = [];
 
     const pincolors = ['black', 'red', 'pink', 'purple'];
