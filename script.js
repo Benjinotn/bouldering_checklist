@@ -9,18 +9,18 @@ const copyLinkButton = document.getElementById('copyLink');
 const copyNotification = document.getElementById('copyNotification');
 const redPinRadio = document.getElementById('redPinRadio');
 const pinkPinRadio = document.getElementById('pinkPinRadio');
-const blackPinRadio = document.getElementById('blackPinRadio'); // New
+const blackPinRadio = document.getElementById('blackPinRadio');
 const purplePinRadio = document.getElementById('purplePinRadio');
 const toggleRedCheckbox = document.getElementById('toggleRedPins');
 const togglePinkCheckbox = document.getElementById('togglePinkPins');
-const toggleBlackCheckbox = document.getElementById('toggleBlackPins'); // New
+const toggleBlackCheckbox = document.getElementById('toggleBlackPins');
 const togglePurpleCheckbox = document.getElementById('togglePurplePins');
 
 let pins = [];
 
 let redPinsVisible = true;
 let pinkPinsVisible = true;
-let blackPinsVisible = true; // New
+let blackPinsVisible = true;
 let purplePinsVisible = true;
 
 const pinNames = ['blackPins', 'redPins', 'pinkPins', 'purplePins']
@@ -30,9 +30,9 @@ function migrateFromUrlToLocalStorage() {
     const hasPinData = pinNames.some(pinName => urlParams.has(pinName));
 
     if(hasPinData) {
-        let message = localStorage.getItem('currentRoutes').length ?
-                'Routes are now stored on your device.  Would you like to overwrite your existing routes with the ones in the URL?' :
-                'Routes are now stored on your device.  Routes stored in the URL will now be migrated to your device and removed from the URL.'
+        let message = localStorage.getItem('currentRoutes')?.length ?
+            'Routes are now stored on your device.  Would you like to overwrite your existing routes with the ones in the URL?' :
+            'Routes are now stored on your device.  Routes stored in the URL will now be migrated to your device and removed from the URL.'
         if(confirm(message)) {
             document.getElementById('import-tool').style.display = 'flex'
             for(let activeTool of document.getElementsByClassName('active-tool')) {
@@ -55,7 +55,8 @@ function migrateFromUrlToLocalStorage() {
                     return {
                         x: (pin.x * scale) + xOffset,
                         y: (pin.y * scale) + yOffset,
-                        color: pin.color
+                        color: pin.color,
+                        inProgress: pin.inProgress === undefined ? false : pin.inProgress // Initialize inProgress
                     }
                 })
                 renderPins()
@@ -100,7 +101,7 @@ function getPinsFromURL() {
             pinParam.split(';').forEach(pinStr => {
                 const coords = pinStr.split(',').map(Number);
                 if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
-                    loadedPins.push({ x: coords[0], y: coords[1], color: color });
+                    loadedPins.push({ x: coords[0], y: coords[1], color: color, inProgress: false }); // Initialize inProgress
                 }
             });
         }
@@ -113,7 +114,7 @@ function getPinsFromURL() {
 function updateURL() {
     const redPinCoords = pins.filter(pin => pin.color === 'red').map(pin => `${pin.x},${pin.y}`).join(';');
     const pinkPinCoords = pins.filter(pin => pin.color === 'pink').map(pin => `${pin.x},${pin.y}`).join(';');
-    const blackPinCoords = pins.filter(pin => pin.color === 'black').map(pin => `${pin.x},${pin.y}`).join(';'); // New
+    const blackPinCoords = pins.filter(pin => pin.color === 'black').map(pin => `${pin.x},${pin.y}`).join(';');
     const purplePinCoords = pins.filter(pin => pin.color === 'purple').map(pin => `${pin.x},${pin.y}`).join(';');
 
     const newURL = new URL(window.location.href);
@@ -129,8 +130,19 @@ function saveCurrentRoutes() {
 }
 
 function load() {
-    pins = JSON.parse(localStorage.getItem('currentRoutes')) || []
-    renderPins()
+    const storedRoutes = localStorage.getItem('currentRoutes');
+    if (storedRoutes) {
+        pins = JSON.parse(storedRoutes).map(pin => {
+            // Check if the 'inProgress' property exists
+            if (pin.inProgress === undefined) {
+                pin.inProgress = false; // Set a default value
+            }
+            return pin;
+        });
+    } else {
+        pins = []; // Initialize as an empty array if no data is found
+    }
+    renderPins();
 }
 
 function archiveSet(setColor) {
@@ -186,24 +198,43 @@ function copyCurrentLink() {
 }
 
 // Function to create a pin element
-function createPinElement(pin) {
+function createPinElement(pin, index) {
     const pinElement = document.createElement('div');
     pinElement.classList.add('pin', `pin-${pin.color}`);
-    const rect = backgroundImage.getBoundingClientRect();
-    pinElement.style.left = `${rect.width * pin.x}px`;
-    pinElement.style.top = `${rect.height * pin.y}px`;
+    pinElement.style.left = `${backgroundImage.getBoundingClientRect().width * pin.x}px`;
+    pinElement.style.top = `${backgroundImage.getBoundingClientRect().height * pin.y}px`;
+    pinElement.dataset.pinIndex = index; // Store the index of the pin in the `pins` array
+
+    // Apply transparency and outline based on the pin's inProgress state
+    if (pin.inProgress) {
+        pinElement.classList.add('in-progress');
+    } else {
+        pinElement.classList.remove('in-progress');
+    }
+
+    pinElement.addEventListener('click', togglePinInProgress);
+
     return pinElement;
+}
+
+function togglePinInProgress(event) {
+    const pinIndex = parseInt(event.target.dataset.pinIndex);
+    if (!isNaN(pinIndex) && pinIndex < pins.length) {
+        pins[pinIndex].inProgress = !pins[pinIndex].inProgress;
+        saveCurrentRoutes();
+        renderPins();
+    }
 }
 
 // Function to render the pins on the image
 function renderPins() {
     pinContainer.innerHTML = ''; // Clear existing pins
-    pins.forEach(pin => {
+    pins.forEach((pin, index) => {
         if ((pin.color === 'red' && redPinsVisible) ||
             (pin.color === 'pink' && pinkPinsVisible) ||
             (pin.color === 'purple' && purplePinsVisible) ||
-            (pin.color === 'black' && blackPinsVisible)) { // New
-            const pinElement = createPinElement(pin);
+            (pin.color === 'black' && blackPinsVisible)) {
+            const pinElement = createPinElement(pin, index);
             pinContainer.appendChild(pinElement);
         }
     });
@@ -221,7 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let selectedColor = 'red'; // Default to red if no selection
         if (pinkPinRadio.checked) {
             selectedColor = 'pink';
-        } else if (blackPinRadio.checked) { // New
+        } else if (blackPinRadio.checked) {
             selectedColor = 'black';
         } else if (purplePinRadio.checked) {
             selectedColor = 'purple';
@@ -233,14 +264,14 @@ document.addEventListener('DOMContentLoaded', () => {
             shouldAddPin = true;
         } else if (selectedColor === 'pink' && pinkPinsVisible) {
             shouldAddPin = true;
-        } else if (selectedColor === 'black' && blackPinsVisible) { // New
+        } else if (selectedColor === 'black' && blackPinsVisible) {
             shouldAddPin = true;
         } else if (selectedColor === 'purple' && purplePinsVisible) {
             shouldAddPin = true;
         }
 
         if (shouldAddPin) {
-            const newPin = { x: x, y: y, color: selectedColor };
+            const newPin = { x: x, y: y, color: selectedColor, inProgress: false }; // Initialize new pin as not in progress
             pins.push(newPin);
             renderPins();
             saveCurrentRoutes();
@@ -288,7 +319,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize visibility based on checkbox state
     redPinsVisible = toggleRedCheckbox.checked;
     pinkPinsVisible = togglePinkCheckbox.checked;
-    blackPinsVisible = toggleBlackCheckbox.checked; // New
+    blackPinsVisible = toggleBlackCheckbox.checked;
     purplePinsVisible = togglePurpleCheckbox.checked;
     renderPins();
 });

@@ -195,6 +195,11 @@ button:hover {
     background-color: purple;
 }
 
+.pin.in-progress {
+    outline: 2px solid black; /* Solid outline matching pin color */
+    opacity: 0.5; /* Slightly reduce fill opacity */
+  }
+
 .link-controls {
     display: flex;
     flex-direction: column;
