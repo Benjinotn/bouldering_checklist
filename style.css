@@ -195,6 +195,27 @@ button:hover {
     background-color: purple;
 }
 
+.pin-hollow {
+    background-color: transparent;
+    border: 2px solid;
+   }
+   
+   .pin-red.pin-hollow {
+    border-color: red;
+   }
+   
+   .pin-pink.pin-hollow {
+    border-color: pink;
+   }
+   
+   .pin-black.pin-hollow {
+    border-color: black;
+   }
+   
+   .pin-purple.pin-hollow {
+    border-color: purple;
+   }
+
 .link-controls {
     display: flex;
     flex-direction: column;
